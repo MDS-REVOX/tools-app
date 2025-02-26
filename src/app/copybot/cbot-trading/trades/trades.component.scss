@@ -1,0 +1,249 @@
+.trade-card {
+    border: 0.5px solid whitesmoke;
+    border-radius: 0.5rem;
+    padding: 1rem 0.8rem;
+}
+.trade-card > body > *{
+    font-size: 10px;
+}
+.tag{
+    top: 0;
+    padding: 0.3rem;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    display: inline-block;
+}
+.tag.buy{
+    background-color: var(--green-600);
+    border-color: var(--green-700);
+}
+
+.tag.sell{
+    background-color: var(--red-600);
+    border-color: var(--red-700);
+}
+.tag.buy:active{
+    background-color: var(--green-400);
+    border-color: var(--green-500);
+}
+.tag.sell:active{
+    background-color: var(--red-400);
+    border-color: var(--red-500);
+}
+
+.symbol{
+    width: calc(100% - 3.5rem);
+    display: inline-block;
+}
+
+.fieldset {
+    border-color: whitesmoke;
+    border-radius: 0.4rem;
+
+}
+
+
+.tradecomp {
+    font-family: "Roboto", sans-serif;
+    overflow: hidden;
+    z-index: 10;
+    position: relative;
+    margin: 1rem 0.5rem;
+    height: 120px;
+    min-width: 300px;
+    border-width: 1px;
+    margin-right: 1.2rem;
+    background-color: transparent;
+    border-radius: 10px;
+    padding-left: 20px;
+}
+.tradecomp.buy{
+    box-shadow: 2px 2px 1px rgba(2, 253, 2, 0.65);
+}
+.tradecomp.sell{
+    box-shadow: 2px 2px 1px rgba(253, 2, 2, 0.65);
+}
+.symbol{
+    z-index: 1000;
+    position: relative;
+    font-weight: 100;
+    font-size: 20px;
+    top: 10px;
+}
+.side{
+    z-index: 1000;
+    position: absolute;
+    font-weight: 500;
+    font-size: 14px;
+    top: 0;
+    right: 0;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-left-radius: 0.25rem;
+    color: whitesmoke;
+    padding: 0.35rem 0.55rem;
+}
+.side.buy{
+    background-color: rgba(2, 253, 2, 0.65);
+}
+.side.sell{
+    background-color: rgba(253, 2, 2, 0.65);
+}
+.libPrice{
+    z-index: 1000;
+    position: absolute;
+    top: 45px;
+    font-size: 0.70rem;
+}
+.price{
+    z-index: 1000;
+    position: absolute;
+    top: 58px;
+    left: 25px;
+    font-size: 1.15rem;
+    min-width: 52px;
+}
+.libDevPts{
+    z-index: 1000;
+    position: absolute;
+    top: 45px;
+    left: 130px;
+    font-size: 0.70rem;
+}
+.devPts{
+    z-index: 1000;
+    position: absolute;
+    left: 135px;
+    top: 58px;
+    font-size: 1.15rem;
+    min-width: 52px;
+}
+.libPts{
+    z-index: 1000;
+    position: absolute;
+    top: 45px;
+    left: 170px;
+    font-size: 0.70rem;
+}
+.libGP{
+    z-index: 1000;
+    position: absolute;
+    top: 45px;
+    left: 170px;
+    font-size: 0.70rem;
+}
+.gp{
+    z-index: 1000;
+    position: absolute;
+    left: 175px;
+    top: 58px;
+    font-size: 1.15rem;
+    min-width: 52px;
+}
+.gpValue{
+    z-index: 1000;
+    position: absolute;
+    left: 240px;
+    top: 58px;
+    font-size: 1.15rem;
+    min-width: 52px;
+}
+.action-wrapper{
+    position: absolute;
+    display: block;
+    width: 100%;
+    padding: 0;
+    bottom: 0;
+    top: 101px;
+    left: 0;
+    right: auto;
+    height: 20px;
+    min-height: 20px;
+    border-top: solid rgb(224, 224, 224) 1px;
+    text-align: center;
+}
+.action-wrapper >*:nth-child(1){
+    width: 3rem;
+}
+.action-wrapper > *:nth-last-child(1){
+    border-right: none;
+    width: 3.1rem;
+}
+.action-wrapper > * {
+    display: inline-block;
+    /* margin: 0;
+    padding: 0 0.4rem; */
+    text-align: center;
+    margin-left: -5px;
+    width: 2.8rem;
+    font-size: 0.9rem;
+    border: none;
+    border-right: solid gray 1px;
+
+}
+.action-wrapper > a::after{
+    content: "";
+}
+.action-wrapper > *:hover{
+    font-weight: 600;
+}
+.action-wrapper > *.show:hover{
+    background-color: #a9def9;
+    cursor: pointer;
+}
+ .action-wrapper > *.edit:hover{
+    background-color: #ff9770;
+    cursor: pointer;
+}
+.action-wrapper > *.sl:hover{
+    background-color: rgba(255, 0, 0, 0.842);
+    cursor: pointer;
+}
+.action-wrapper > *.be:hover{
+    background-color: #ffd670;
+    cursor: pointer;
+}
+.action-wrapper > *.tp:hover{
+    background-color: #98ff98;
+    cursor: pointer;
+}
+
+.action-wrapper > a:active {
+background-color: #92a526;
+box-shadow: 0 5px #666;
+transform: translateY(-2px);
+}
+
+.disabled {
+    pointer-events: none;  
+    opacity: 0.5;          
+    cursor: not-allowed;   
+}
+
+.trade-be {
+    background-color: #ede3d4; 
+    color: #155724;           
+    border: 1px solid #c3e6cb; 
+}
+
+.trade-win {
+    background-color: #dbedd4 !important;
+    color: #155738 !important;          
+    border: 1px solid #c3e6cb !important;
+}
+
+.trade-loss {
+    background-color: #d4edda; 
+    color: #572a15;           
+    border: 1px solid #c3e6cb; 
+}
+
+
+.custom-input {
+    width: 100px; 
+    height: 20px; 
+    padding: 5px; 
+    font-size: 14px; 
+  }
+  

@@ -1,0 +1,107 @@
+
+.tickerWrapper {
+    padding: 0;
+    max-width: 10rem;
+    min-width: 6rem;
+    background-color: #f5f5f523;
+ }
+
+.tickerWrapper > .symbol{
+    display: inline-block;
+    writing-mode: vertical-lr;
+    padding: 0.15rem 0rem;
+    text-align: start;
+    font-weight: 600;
+    margin: 0;
+}
+.formWrapper {
+    width: calc(100% - 1.6rem);
+    display: inline-block;
+    justify-content: center; 
+    background-color: transparent;
+}
+.formWrapper >*{
+    width: 100%;
+}
+.formWrapper > input{
+    padding: 0.15rem;
+    text-align: center;
+    height: 2.5rem;
+    border-color: transparent;
+    margin: 0;
+}
+button 
+{
+    margin: 0;
+    padding: 0.5rem;
+    border-radius: 0.15rem;
+    border: none;
+    text-align: center;
+}
+
+button.btnSell {
+    background-color: var(--red-600);
+    transition: background-color 0.5s ease;
+}
+button.btnBuy {
+    background-color: var(--green-600);
+    transition: background-color 0.5s ease;
+}
+button.btnBuy:active
+{
+    background-color: var(--green-400);
+    border-color: var(--green-500);
+    box-shadow: 2px 2px 5px var(--green-400);
+}
+button.btnSell:active {
+    background-color: var(--red-400);
+    border-color: var(--red-500);
+    box-shadow: 2px 2px 5px var(--red-500);
+}
+
+span {
+    cursor:pointer;
+ }
+.number{
+    //max-width: 3.5rem;
+    display: inline-block;
+    justify-content: center;
+    height: 100%;
+}
+.minus, .plus{
+    border-radius:4px;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    border:1px solid #ddd;
+    display: block;
+    justify-content: center;
+    text-align: center;
+}
+input{
+    padding: 0.1rem;
+    text-align: center;
+    border:1px solid ;
+    border-radius:4px;
+    display: block;
+    text-align: middle;
+}
+
+.marketStatus {
+    margin: 5px 0;
+    font-weight: bold;
+  }
+  
+  .marketStatus span {
+    padding: 5px;
+    border-radius: 3px;
+  }
+  
+  .marketStatus .open {
+    color: green;
+    background-color: #e0f7e0; 
+  }
+  
+  .marketStatus .closed {
+    color: red;
+    background-color: #f7e0e0; 
+  }

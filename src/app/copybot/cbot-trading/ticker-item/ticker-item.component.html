@@ -1,0 +1,17 @@
+@if(ticker){
+    <!--<div class="marketStatus">
+        <span [ngClass]="{ 'open': ticker.marketOpen, 'closed': !ticker.marketOpen }">
+          {{ ticker.marketOpen ? 'Market OPEN' : 'Market CLOSE' }}
+        </span>
+      </div> -->
+    <div class="tickerWrapper">
+        <div class="symbol" >{{ticker.symbol}}</div>
+        <div class="formWrapper">
+            <button class="btnBuy" (click)="fastTradeClick('buy')"
+                [disabled]="ticker.marketOpen" >{{ticker.ask}}</button>
+            <input  type="number" [(ngModel)]="lotSize" step="0.1"/>
+            <button class="btnSell" (click)="fastTradeClick('sell')"
+                [disabled]="ticker.marketOpen">{{ticker.bid}}</button>
+        </div>
+    </div>    
+}

@@ -1,0 +1,8 @@
+<div class="grid scroll-horiz">
+    @if(accounts){
+        @for(ac of accounts; track ac.id){
+            <cbot-follow-item [acc]="ac" class="col-12 sm:col-5 md:col-3">
+            </cbot-follow-item>
+        }
+    }
+</div>

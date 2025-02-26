@@ -1,0 +1,7 @@
+<div class="grid w-full justify-content-start mb-3"  style="max-height: 16rem; overflow-y: scroll;">
+    @if(tickers && account){
+        @for(ticker of tickers; track ticker.id){
+            <ticker-item [ticker]="ticker" [accountId]="account.id" class="col-4 sm:col-2 md:col-2 lg:col-1"></ticker-item>
+        }
+    }
+</div>

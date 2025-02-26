@@ -1,0 +1,10 @@
+{
+    "/copy-bot": {
+    "target": "http://localhost:8080",
+    "secure": false
+    },
+    "/api": {
+    "target": "http://api.mdossantos.fr",
+    "secure": true
+    }
+}

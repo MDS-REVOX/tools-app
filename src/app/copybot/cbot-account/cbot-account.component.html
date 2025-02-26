@@ -1,0 +1,81 @@
+<div class="card grid">
+    <div class="col-12 md:col-6 flex flex-wrap justify-content-center md:justify-content-start align-items-center h-3rem">
+        <p-dropdown 
+            [options]="accounts" 
+            optionLabel="libelle"
+            [showClear]="true"
+            [(ngModel)]="curAccount"
+            placeholder="Selectionner un compte">
+                <ng-template pTemplate="curAccount">
+                    @if(curAccount){
+                        <div class="flex align-items-center gap-2" >
+                            <div>{{ curAccount.id }}</div>
+                        </div>    
+                    }
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <div>{{ item.id }} - {{ item.libelle }}</div>
+                    </div>
+                </ng-template>
+        </p-dropdown>
+    </div>
+    <div class="col-12 md:col-6 flex flex-wrap justify-content-start md:justify-content-end align-items-center h-3rem">
+        <p-button 
+            [rounded]="true" [text]="true" severity="success" icon="pi pi-refresh"
+            [pTooltip]="tltpRefresh" tooltipPosition="bottom" [disabled]="!curAccount">
+            <ng-template #tltpRefresh>
+                <div class="flex align-items-center">
+                    <span>Raffraichir</span>
+                </div>
+            </ng-template>
+        </p-button>
+        <p-button 
+            [rounded]="true" [text]="true" severity="info"
+            [pTooltip]="tltpAddAccount" tooltipPosition="bottom" [disabled]="!curAccount"
+        >
+            <i class="pi pi-user-plus"></i>
+            <ng-template #tltpAddAccount>
+                <div class="flex align-items-center">
+                    <span>Ajouter un compte MQL5</span>
+                </div>
+            </ng-template>
+        </p-button>
+        <p-button class="inline-flex justify-content-end align-items-center h-3rem "
+            [rounded]="true" [text]="true" severity="danger"
+            [pTooltip]="tltpAddAccount" tooltipPosition="bottom" [disabled]="!curAccount"
+        >
+            <i class="pi pi-user-minus"></i>
+            <ng-template #tltpAddAccount>
+                <div class="flex align-items-center">
+                    <span>Ajouter un compte MQL5</span>
+                </div>
+            </ng-template>
+        </p-button>
+    </div>
+</div>
+<p-divider type="solid" />
+<p-accordion [multiple]="true" [activeIndex]="[1]">
+    <p-accordionTab> 
+        <ng-template pTemplate="header">
+            <p-divider align="left" type="solid" class="col-12">
+                <b> Comptes 
+                    @if(curAccount && curAccount.master){
+                        suiveurs
+                    }@else if(curAccount && !curAccount.master){
+                        Suivis
+                    }
+                </b>
+            </p-divider>
+        </ng-template>
+        <cbot-following [selected]="curAccount">
+        </cbot-following>
+    </p-accordionTab>
+</p-accordion>
+<p-divider align="left" type="solid" class="col-12">
+    <b>Paramétrage</b>
+</p-divider>
+<p-divider align="left" type="solid" class="col-12">
+    <b>Général</b>
+</p-divider>
+<form-account [acc]="curAccount"></form-account>

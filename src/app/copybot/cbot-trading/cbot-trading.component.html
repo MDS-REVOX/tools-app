@@ -1,0 +1,24 @@
+<div class="w-100 h-100">
+    <p-dropdown 
+        [options]="accounts" 
+        optionLabel="libelle"
+        [showClear]="true"
+        [(ngModel)]="curAccount"
+        placeholder="Selectionner un compte">
+            <ng-template pTemplate="curAccount">
+                @if(curAccount){
+                    <div class="flex align-items-center gap-2" >
+                        <div>{{ curAccount.id }}</div>
+                    </div>    
+                }
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ item.id }} - {{ item.libelle }}</div>
+                </div>
+            </ng-template>
+    </p-dropdown>
+    <p-divider class="w-full"></p-divider>
+    <tickers [account]="curAccount" [tickers]="this.tickers"></tickers>
+    <trades [account]="curAccount" [tickers]="this.tickers"></trades>
+</div>

@@ -1,0 +1,89 @@
+<div class="card bottom-toolbar">
+    <form class="grid formgrid">
+        <div class="col-10 flex align-items-stretch flex-wrap justify-content-start">
+            <div class="col-6">
+                <p-dropdown 
+                    class="col-1 mr-4"
+                    [options]="actifs" 
+                    optionLabel="libelle"
+                    [showClear]="true"
+                    (onChange)="checkStrategyForm($event)"
+                    placeholder="Quoi ?"
+                    >
+                        <ng-template pTemplate="selectedItem">
+                            @if(what){
+                                {{ what.code }}   
+                            }
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{ item.code }}
+                        </ng-template>
+                </p-dropdown>
+                <p-dropdown 
+                    class="col-1 mr-4 "
+                    [options]="whenTypes" 
+                    optionLabel="libelle"
+                    [showClear]="true"
+                    (onChange)="checkStrategyForm($event)"
+                    placeholder="Où/Quand ?"
+                    >
+                        <ng-template pTemplate="selectedItem">
+                            @if(when){
+                                {{ when.libelle }}   
+                            }
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{ item.libelle }}
+                        </ng-template>
+                </p-dropdown>
+                <p-dropdown 
+                    class="col-1 mr-4 mt-2 md:mt-0 "
+                    [options]="howTypes" 
+                    optionLabel="libelle"
+                    [showClear]="true"
+                    (onChange)="checkStrategyForm($event)"
+                    placeholder="Comment ?">
+                        <ng-template pTemplate="selectedItem">
+                            @if(how){
+                                {{ how.libelle }}   
+                            }
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{ item.libelle }}
+                        </ng-template>
+                </p-dropdown>
+                <!-- md:mr-3 mt-2 md:mt-0 -->
+                <p-dropdown 
+                    class="col-1 mr-4"
+                    [options]="unitTimes" 
+                    optionLabel="libelle"
+                    [showClear]="true"
+                    (onChange)="checkStrategyForm($event)"
+                    placeholder="Unité de temps ?">
+                        <ng-template pTemplate="selectedItem">
+                            @if(how){
+                                {{ how.libelle }}   
+                            }
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            {{ item.libelle }}
+                        </ng-template>
+                </p-dropdown>
+            </div>
+            <textarea 
+                class="col mt-2 md:mt-0 align-self-end"
+                id="float-input" 
+                rows="2" cols="35"
+                placeholder="Commentaire"
+                (onChange)="checkStrategyForm($event)"
+                pInputTextarea>
+            </textarea>
+        </div>
+        <div class="col-1 flex flex-wrap justify-content-end">
+            <p-button icon="pi pi-save" [rounded]="true" [outlined]="true" 
+                [disabled]="!canSaveStrategy"
+                severity="success" class="align-self-end"
+            />
+        </div>    
+    </form>
+</div>

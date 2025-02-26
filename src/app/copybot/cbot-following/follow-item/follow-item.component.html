@@ -1,0 +1,15 @@
+<form>
+    <p-card header="{{acc.id}}" subheader="{{acc.libelle}}" >
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="enabledCopy">Copie trading ?</label>
+                <p-inputSwitch inputId="enabledCopy" [(ngModel)]="copy" [ngModelOptions]="{standalone: true}" (click)="toggleEnabled()"/>
+            </div>
+            <!-- col-12 sm:col-5 md:col-5 -->
+            <div class="field ">
+                <label for="enabledObjectif">Contrôle d'objectif ?</label>
+                <p-inputSwitch inputId="enabledObjectif" [(ngModel)]="objectif" [ngModelOptions]="{standalone: true}" (click)="toggleEnabled()"/>
+            </div>
+        </ng-template>
+    </p-card>
+</form>

@@ -1,0 +1,65 @@
+<div class="card mainContent ">
+    <p-button (onClick)="logout()" label="Quitter" [outlined]="true" severity="danger" size="small" />
+    <ng-template pTemplate="header">
+        <p-toolbar 
+            styleClass="shadow-2 align-items-center mx-auto mb-4">
+            <ng-template pTemplate="start">
+                Copy Bot
+            </ng-template>
+            <ng-template pTemplate="end">
+                <div class="flex flex-wrap align-items-center gap-3">
+                    <p-confirmPopup #confirmPopupRef>
+                        <ng-template pTemplate="headless" let-message let-test>
+                            <div class="border-round p-3">
+                                <span>{{ message.message }}</span>
+                                <div class="flex align-items-center gap-2 mt-3">
+                                    <p-button (onClick)="accept()" label="Valider" [outlined]="true" severity="success" size="small" />
+                                    <p-button (onClick)="reject()" label="Annuler" [outlined]="true" severity="danger" size="small" />
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-confirmPopup>
+                    <p-button class="inline-flex justify-content-center align-items-center h-3rem "
+                        [rounded]="true" [text]="true" severity="warning"
+                        (click)="confirm($event)" [pTooltip]="tltpKillCopyBot" tooltipPosition="bottom" 
+                    >
+                        <i class="pi pi-times"></i>
+                        <ng-template #tltpKillCopyBot>
+                            <div class="flex align-items-center">
+                                <span><b>Forcer l'arrêt du copie trading.</b></span>
+                            </div>
+                        </ng-template>
+                    </p-button>
+                </div>
+            </ng-template>
+        </p-toolbar>
+    </ng-template>
+</div>
+<p-tabView  class="px-0 py-0 mx-0 my-0 h-full transparent">
+    <p-tabPanel [selected]="true" class="px-0 py-0 lg:px-2 lg:py-5">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+                <p-avatar shape="circle" > 
+                        <i class="pi pi-chart-bar"></i>
+                </p-avatar>
+                <span class="font-bold white-space-nowrap m-0">
+                    Trading
+                </span>
+            </div>
+        </ng-template>
+        <cbot-trading [accounts]="actifAccount"></cbot-trading>
+    </p-tabPanel>
+    <p-tabPanel>
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+                <p-avatar shape="circle" >
+                    <i class="pi pi-users"></i>
+                </p-avatar>
+                <span class="font-bold white-space-nowrap m-0">
+                    Comptes
+                </span>
+            </div>
+        </ng-template>
+        <cbot-accounts [accounts]="accounts"></cbot-accounts>
+    </p-tabPanel>
+</p-tabView>
