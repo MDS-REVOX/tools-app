@@ -4,7 +4,6 @@ import { TradeService } from '../../../services/TradeService';
 import { Trade } from '../../datas/Trade';
 import { DividerModule } from 'primeng/divider';
 import { ToastModule } from 'primeng/toast';
-import { TradeLinesComponent } from '../trade-lines/trade-lines.component';
 import { TradeLines } from '../../datas/TradeLines';
 import { EventEnum } from '../../datas/EventEnum';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +13,7 @@ import { Ticker } from '../../datas/Ticker';
 @Component({
   selector: 'trades',
   standalone: true,
-  imports: [DividerModule, ToastModule, TradeLinesComponent, FormsModule, CommonModule
+  imports: [DividerModule, ToastModule,  FormsModule, CommonModule
   ],
   templateUrl: './trades.component.html',
   styleUrl: './trades.component.scss'
