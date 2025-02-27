@@ -4,8 +4,8 @@ import { Injectable } from "@angular/core";
 export class Config {
     private domain = "api.mdossantos.fr";
     private domainDev = "localhost:8080";
-    private isDev : boolean  = true;
-    private wsDomain:string = "http://"+ this.domain;
+    private isDev : boolean  = false;
+    private wsDomain:string = "https://"+ this.domain;
     private wsDomainDev:string = "http://" + this.domainDev;
 
     constructor(){
