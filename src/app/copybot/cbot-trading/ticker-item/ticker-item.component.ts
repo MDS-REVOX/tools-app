@@ -57,8 +57,8 @@ export class TickerItemComponent implements OnChanges{
   }
 
   fastTradeClick(Side:string){
-    this.tradeServ.openTrade(this.accountId, this.ticker.symbol, Side === 'buy' ? 1 : 2, this.lotSize);
-    // console.log("AccountId: "+ this.accountId +"  "+ Side + " "+ this.ticker.symbol + " "+ (Side === 'buy'? this.ticker.ask : this.ticker.bid));
+    this.tradeServ.openTrade(this.accountId, this.ticker.symbol, Side === 'buy' ? 1 : 2, this.lotSize, !this.isTradePartiel);
+    console.log("AccountId: "+ this.accountId +"  "+ Side + " "+ this.ticker.symbol + " "+ (Side === 'buy'? this.ticker.ask : this.ticker.bid));
   }
 
   toggleTradePartiel() {
