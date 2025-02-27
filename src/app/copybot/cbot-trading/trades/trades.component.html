@@ -8,14 +8,14 @@
                 <!-- @if(trade.id == trades[0].id){ -->
                     <div class="tradecomp" [class]="trade.side == 2 ? 'sell' : 'buy'">
                         <div class="symbol">{{ trade.symbol }}</div>
-                        <div class="side" [class]="trade.side == 2 ? 'sell' : 'buy'">{{ trade.side == 2 ? 'SELL' : 'BUY' }}</div>
-                        <div class="libPrice">Open price</div>
-                        <div class="price">{{ avgOpenPrices(trade.lines)}}</div>
-                        <div class="libDevPts">€/pts</div>
-                        <div class="devPts">2</div>
-                        <div class="libGP">GP latents</div>
-                        <div class="gp"></div>
-                        <div class="gpValue">-0.25%</div>
+                    <div class="side" [class]="trade.side == 2 ? 'sell' : 'buy'">{{ trade.side == 2 ? 'SELL' : 'BUY' }}</div>
+                    <div class="libPrice">Open price</div>
+                    <div class="price">{{ avgOpenPrices(trade.lines)}}</div>
+                    <div class="libDevPts">€/pts</div>
+                    <div class="devPts">{{ trade.exposition }}</div>
+                    <div class="libGP">P&L</div>
+                    <div class="gp">{{ calcPnl(trade) }}</div>
+                    <div class="gpValue">{{ calcPnlPercent(trade) }}</div>
                         <div class="action-wrapper">
                             <a class="show"><i class="pi pi-eye" style="font-size: 0.95rem;"></i></a>
                             <a class="edit"><i class="pi pi-pencil" style="font-size: 0.95rem;"></i></a>
@@ -72,7 +72,8 @@
                                             @if(tickers && tickers.length != 0){
                                                 @for(ticker of tickers; track ticker.id) {
                                                     @if (ticker.symbol == trade.symbol) {
-                                                        <span  style="color: {{ (trade.side == 2 ? (line.open - ticker.ask) : (ticker.bid - line.open)) > 0 ? 'green' : 'red' }}">
+                                                        <!-- <span  [style]="{{ (trade.side == 2 ? (line.open - ticker.ask) : (ticker.bid - line.open)) > 0 ? 'green' : 'red' }}"> -->
+                                                        <span>
                                                             {{ trade.side == 2 ?  line.open - ticker.ask : ticker.bid - line.open}} 
                                                         </span>                          
                                                     }

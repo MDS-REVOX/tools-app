@@ -254,5 +254,46 @@ export class TradesComponent {
       childrens[1].classList.add('collapsed');
     }
 }
+calcPnl(trade: Trade){
+      return this.calculPnl(trade, false);
+    }
+    calcPnlPercent(trade: Trade){
+      return this.calculPnl(trade, true);
+    }
+    calculPnl(trade: Trade, percent : boolean){
+      let open : number = 0;
+      let size : number = 0;
+      let ticker = this.getTicker(trade.symbol);
+      let close : number = 0;
+      let countActifs : number = 0;
+      trade.lines.forEach(line=>{
+        if(line.open !=  0){
+          open += line.open;
+          size += line.exposition;
+          countActifs++;
+        }
+      });
+      if(ticker != undefined){
+        close = trade.side == 1 ? ticker.ask : ticker.bid;
+      }
+      let avg = (open / countActifs);
+      let ticks = close - avg ;
+      if(trade.side != 1){
+        ticks = avg  - close ;
+      }
+      let pnl = ticks * size;
+      if(percent){
+        pnl = (close - avg) / avg;
+      }
+      return pnl;
+    }
+getTicker(Symbol: string){
+  if(!this.tickers){
+    return undefined;
+  }
+  let target = this.tickers.find((value:Ticker)=>  value.symbol ===Symbol);
+  return target;
+}
+
   
 }
