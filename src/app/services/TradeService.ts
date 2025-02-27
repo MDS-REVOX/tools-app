@@ -7,6 +7,7 @@ import { response } from "express";
 import { TradeLines } from "../copybot/datas/TradeLines";
 import { MqlEvent } from "../copybot/datas/MqlEvent";
 import { EventEnum } from "../copybot/datas/EventEnum";
+import { Divider } from "primeng/divider";
 
 @Injectable({providedIn: 'root'})
 export class TradeService{
@@ -24,9 +25,9 @@ export class TradeService{
     }
 
 
-    openTrade(accountId: number, symbol:string, side: number, exposition: number){
-        this.http.post(this.url+"/open", {"accountId":accountId, "symbol":symbol, "side":side, "exposition":exposition}, {observe: "response"}).subscribe(res=>{
-            // console.log(res);
+    openTrade(accountId: number, symbol:string, side: number, exposition: number, divider:boolean){
+        this.http.post(this.url+"/open", {"accountId":accountId, "symbol":symbol, "side":side, "exposition":exposition, "divider":divider}, {observe: "response"}).subscribe(res=>{
+            console.log(res);
         });
     }
 
@@ -90,7 +91,7 @@ export class TradeService{
                     stopLoss: selectedLine.priceSl,
                     takeProfit: selectedLine.priceTp,
                 });
-                // console.log(selectedLine);
+                console.log(selectedLine);
                 
                 this.http.post(this.url+"/make-event",mqlEvent,{observe: "response"}).subscribe(res=>{
                     console.log(res);
@@ -121,6 +122,36 @@ export class TradeService{
 
 
     }
+
+    makeEventTradePartial(accountId: number, trade: Trade, event:EventEnum, vol: number){
+        if (vol == 0) {
+            vol = trade.exposition;
+        }
+        if (event != EventEnum.TRADE_CLOSE ) {
+            vol = trade.exposition;
+        }
+        const mqlEvent: MqlEvent = new MqlEvent({
+            idAccount: accountId, 
+            idTradeLine: trade.id,
+            eventType: event, 
+            side: trade.side,
+            ticket: trade.lines[0].idTicket,
+            symbol: trade.symbol,
+            price: trade.lines[0].open, 
+            //size: trade.exposition,
+            size: vol,
+            stopLoss: trade.lines[0].priceSl,
+            takeProfit: trade.lines[0].priceTp,
+        });
+            
+        this.http.post(this.url+"/make-event",mqlEvent,{observe: "response"}).subscribe(res=>{
+            console.log(res);
+        })
+        
+    }
+
+
+    
 }
 
 

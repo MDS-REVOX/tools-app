@@ -4,6 +4,7 @@ import { TradeService } from '../../../services/TradeService';
 import { Trade } from '../../datas/Trade';
 import { DividerModule } from 'primeng/divider';
 import { ToastModule } from 'primeng/toast';
+import { TradeLinesComponent } from '../trade-lines/trade-lines.component';
 import { TradeLines } from '../../datas/TradeLines';
 import { EventEnum } from '../../datas/EventEnum';
 import { FormsModule } from '@angular/forms';
@@ -11,20 +12,24 @@ import { CommonModule } from '@angular/common';
 import { Ticker } from '../../datas/Ticker';
 
 @Component({
-    selector: 'trades',
-    standalone: true,
-    imports: [DividerModule, ToastModule, FormsModule, CommonModule
-    ],
-    templateUrl: './trades.component.html',
-    styleUrl: './trades.component.scss'
-  })
-  export class TradesComponent {
+  selector: 'trades',
+  standalone: true,
+  imports: [DividerModule, ToastModule, TradeLinesComponent, FormsModule, CommonModule
+  ],
+  templateUrl: './trades.component.html',
+  styleUrl: './trades.component.scss'
+})
+export class TradesComponent {
 
   @Input({required:true}) account :Account = Account.prototype;
-  @Input() tickers: Ticker[] = [];
+  @Input() tickers: Ticker[] | any;
+  @Input() isTradePartiel: boolean = false;
   trades:Trade[]= [];
 
   public EventEnum = EventEnum;
+  public isPartialTrade : boolean  = true;
+  isFieldsetVisibleMap: { [key: number]: boolean } = {};
+  inputVolume: number = 0;
 
   constructor(private tradeServ: TradeService){
 
@@ -76,11 +81,26 @@ import { Ticker } from '../../datas/Ticker';
 
 
   makeBreakEvent(trade:Trade, event:EventEnum) {
-    this.tradeServ.makeEventTrade(this.account.id, trade, event);
+    if (!this.isPartialTrade){
+      this.tradeServ.makeEventTrade(this.account.id, trade, event);
+    } else {
+      this.tradeServ.makeEventTradePartial(this.account.id, trade, event, this.inputVolume);
+    }
   }
 
   makeCloseTrade(trade:Trade, event:EventEnum) {
-    this.tradeServ.makeEventTrade(this.account.id, trade, event)  
+    if (!this.isPartialTrade){
+      this.tradeServ.makeEventTrade(this.account.id, trade, event);
+    } else {
+      this.tradeServ.makeEventTradePartial(this.account.id, trade, event, this.inputVolume);
+    }  
+  }
+
+  toggleFieldset(trade:Trade) {
+    const tradeId = trade.id;
+    // Inverser la visibilité actuelle du fieldset pour ce trade
+    this.isFieldsetVisibleMap[tradeId] = !this.isFieldsetVisibleMap[tradeId];
+    
   }
 
 
@@ -146,6 +166,18 @@ import { Ticker } from '../../datas/Ticker';
     return trade.lines.filter(line => line.takeProfit == true || line.stopLoss == true).length;
   }
 
+  getNbTradeLineClosePartial(trade: Trade): number {
+    if (trade.lines[0].volumeClose == null  || trade.lines[0].volumeClose == 0) {
+      return 0;
+    } else {
+      if (trade.lines[0].volumeClose >= trade.lines[0].exposition / 2 ) {
+        return 2;
+      }else {
+        return 1;
+      }
+    }
+  }
+
   
   isTradeLigneClose(line: TradeLines): boolean {
     if (line.takeProfit == true || line.stopLoss == true) {
@@ -184,6 +216,11 @@ import { Ticker } from '../../datas/Ticker';
     this.tradeServ.makeEventTradeLine(this.account.id, line, event);
   }
 
+  // Action Valid tp sur la ligne trade
+  lineItemTPClick(line: TradeLines, event:EventEnum): void {
+    this.tradeServ.makeEventTradeLine(this.account.id, line, event);
+  }
+
   onTradeTPBlur(line: TradeLines): void {
     if (line.priceTp == 0) {
       //line.priceTp = line.price;
@@ -217,46 +254,5 @@ import { Ticker } from '../../datas/Ticker';
       childrens[1].classList.add('collapsed');
     }
 }
-  calcPnl(trade: Trade){
-      return this.calculPnl(trade, false);
-    }
-    calcPnlPercent(trade: Trade){
-      return this.calculPnl(trade, true);
-    }
-    calculPnl(trade: Trade, percent : boolean){
-      let open : number = 0;
-      let size : number = 0;
-      let ticker = this.getTicker(trade.symbol);
-      let close : number = 0;
-      let countActifs : number = 0;
-      trade.lines.forEach(line=>{
-        if(line.open !=  0){
-          open += line.open;
-          size += line.exposition;
-          countActifs++;
-        }
-      });
-      if(ticker != undefined){
-        close = trade.side == 1 ? ticker.ask : ticker.bid;
-      }
-      let avg = (open / countActifs);
-      let ticks = close - avg ;
-      if(trade.side != 1){
-        ticks = avg  - close ;
-      }
-      let pnl = ticks * size;
-      if(percent){
-        pnl = (close - avg) / avg;
-      }
-      return pnl;
-    }
-    getTicker(Symbol: string){
-      if(!this.tickers){
-        return undefined;
-      }
-      let target = this.tickers.find((value)=> value.symbol===Symbol);
-      return target;
-    }
-  
   
 }

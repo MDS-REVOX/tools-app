@@ -28,6 +28,7 @@ export class TickerItemComponent implements OnChanges{
   sell = 2;
 
   isMarketOpen: boolean = true;
+  isTradePartiel: boolean = false;
 
   constructor(private tradeServ:TradeService){
 
@@ -58,6 +59,10 @@ export class TickerItemComponent implements OnChanges{
   fastTradeClick(Side:string){
     this.tradeServ.openTrade(this.accountId, this.ticker.symbol, Side === 'buy' ? 1 : 2, this.lotSize);
     // console.log("AccountId: "+ this.accountId +"  "+ Side + " "+ this.ticker.symbol + " "+ (Side === 'buy'? this.ticker.ask : this.ticker.bid));
+  }
+
+  toggleTradePartiel() {
+    console.log('Trade Partiel activé:', this.isTradePartiel);
   }
 
 }

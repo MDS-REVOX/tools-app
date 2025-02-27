@@ -10,6 +10,9 @@ interface ITrade {
     divider:number;
     followable:boolean;
     lines:Array<TradeLines>;
+    stopLoss: number;
+    inProgress: number;
+
 }
 
 export class Trade implements ITrade{
@@ -21,6 +24,8 @@ export class Trade implements ITrade{
     public followable: boolean = true;
     public lines: TradeLines[] = [];
     public side: number = 0;
+    public stopLoss: number = 0;
+    public inProgress: number = 0;
     constructor(){
 
     }

@@ -9,6 +9,7 @@ interface ITradeLines{
     side:number;
     symbol:string;
     exposition:number;
+    volumeClose:number;
     open: number;
     close:number;
     breakEvent:boolean;
@@ -29,6 +30,7 @@ export class TradeLines implements ITradeLines{
     side: number = 0;
     symbol: string = "";
     exposition: number = 0;
+    volumeClose: number = 0;
     open: number = 0;
     close: number = 0;
     size: number = 0;

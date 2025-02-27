@@ -13,5 +13,12 @@
             <button class="btnSell" (click)="fastTradeClick('sell')"
                 [disabled]="ticker.marketOpen">{{ticker.bid}}</button>
         </div>
+
+        <div class="tradePartielWrapper">
+            <label>
+              <input type="checkbox" [(ngModel)]="isTradePartiel" (change)="toggleTradePartiel()">
+              Activer Trade Partiel
+            </label>
+          </div>
     </div>    
 }
