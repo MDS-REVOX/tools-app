@@ -74,7 +74,9 @@ export class TradesComponent {
       count +=1;
     });
     let avg = (price / count);
-    avg = Math.round(avg*100)/100;  
+    let ticker = this.getTicker(lines[0].symbol);
+    console.log(ticker);
+    avg = Math.round(avg*100000.0)/100000.0;  
     return avg;
   }
 
@@ -134,7 +136,20 @@ export class TradesComponent {
 
     return trade.lines.filter(line => line.breakEvent == true).length;
   }
-
+  getOpenLotSize(trade: Trade){
+    let lotSize :number = 0;
+    if(!trade){
+      return lotSize;
+    }
+    
+    trade.lines.forEach(line => {
+      lotSize += line.exposition;
+      if(line.volumeClose !== undefined){
+        lotSize -= line.volumeClose;
+      }
+    });
+    return lotSize;
+  }
   isTradeActifBE(trade: Trade): boolean {
     if (!trade.lines || trade.lines.length == 0) {
       return false;
@@ -253,7 +268,7 @@ export class TradesComponent {
       childrens[1].classList.add('collapsed');
     }
 }
-calcPnl(trade: Trade){
+    calcPnl(trade: Trade){
       return this.calculPnl(trade, false);
     }
     calcPnlPercent(trade: Trade){
@@ -265,16 +280,24 @@ calcPnl(trade: Trade){
       let ticker = this.getTicker(trade.symbol);
       let close : number = 0;
       let countActifs : number = 0;
+      
+      if(ticker != undefined){
+        close = trade.side == 1 ? ticker.ask : ticker.bid;
+      }
       trade.lines.forEach(line=>{
         if(line.open !=  0){
           open += line.open;
           size += line.exposition;
+          if(line.volumeClose !== undefined){
+            size -= line.volumeClose;
+          }
+          let ticks = (close - line.open);
+          // console.log(ticks);
+          let pnl = size * ticks;
+          console.log(pnl);
           countActifs++;
         }
       });
-      if(ticker != undefined){
-        close = trade.side == 1 ? ticker.ask : ticker.bid;
-      }
       let avg = (open / countActifs);
       let ticks = close - avg ;
       if(trade.side != 1){
@@ -284,7 +307,8 @@ calcPnl(trade: Trade){
       if(percent){
         pnl = (close - avg) / avg;
       }
-      return pnl;
+      // console.log(pnl);
+      return Math.round(pnl * 1000.00) / 1000.00;
     }
 getTicker(Symbol: string){
   if(!this.tickers){
