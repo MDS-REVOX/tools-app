@@ -1,0 +1,7 @@
+<!-- notification-popup.component.html -->
+<div class="popup" [ngClass]="{'show': showNotification}">
+  <div class="popup-content">
+    <button class="close-btn" (click)="close()">×</button>
+    <p>{{ message }}</p>
+  </div>
+</div>

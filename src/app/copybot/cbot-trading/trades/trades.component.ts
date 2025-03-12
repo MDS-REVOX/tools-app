@@ -35,12 +35,13 @@ export class TradesComponent {
   }
 
   ngOnChanges(){
-    if(this.account){
+  if(this.account){
       this.tradeServ.getTrades(this.account.id).subscribe(res=>{
-        this.trades = res;
+        if(res !== undefined){
+          this.trades = res;
+        }
       });  
     }
-
   }
   loadTrades(){
     if(this.account){

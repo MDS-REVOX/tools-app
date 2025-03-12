@@ -1,10 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { Ticker } from '../../datas/Ticker';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { TradeService } from '../../../services/TradeService';
 import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'ticker-item',
@@ -30,7 +31,9 @@ export class TickerItemComponent implements OnChanges{
   isMarketOpen: boolean = true;
   isTradePartiel: boolean = false;
 
-  constructor(private tradeServ:TradeService){
+
+
+  constructor(private tradeServ:TradeService, private changeDetector: ChangeDetectorRef){
 
   }
 
@@ -57,12 +60,15 @@ export class TickerItemComponent implements OnChanges{
   }
 
   fastTradeClick(Side:string){
-    this.tradeServ.openTrade(this.accountId, this.ticker.symbol, Side === 'buy' ? 1 : 2, this.lotSize, !this.isTradePartiel);
+    this.tradeServ.openTrade(this.accountId, this.ticker.symbol, Side === 'buy' ? 1 : 2, this.lotSize, !this.isTradePartiel);    
+    this.changeDetector.detectChanges();
     console.log("AccountId: "+ this.accountId +"  "+ Side + " "+ this.ticker.symbol + " "+ (Side === 'buy'? this.ticker.ask : this.ticker.bid));
   }
 
   toggleTradePartiel() {
     console.log('Trade Partiel activé:', this.isTradePartiel);
   }
+
+
 
 }

@@ -8,6 +8,7 @@ import { TradeLines } from "../copybot/datas/TradeLines";
 import { MqlEvent } from "../copybot/datas/MqlEvent";
 import { EventEnum } from "../copybot/datas/EventEnum";
 import { Divider } from "primeng/divider";
+import { MqlNotification } from "../copybot/datas/MqlNotification";
 
 @Injectable({providedIn: 'root'})
 export class TradeService{
@@ -150,6 +151,12 @@ export class TradeService{
         
     }
 
+    getMqlNotification(Accountid: number) :  Observable<Array<MqlNotification>>{
+        console.log(this.url+"/notification?accountId="+Accountid);
+        return this.http.get<Array<MqlNotification>>(this.url+"/notification", {params:{
+            accountId: Accountid
+        }});
+    }
 
     
 }

@@ -21,4 +21,12 @@
     <p-divider class="w-full"></p-divider>
     <tickers [account]="curAccount" [tickers]="this.tickers"></tickers>
     <trades [account]="curAccount" [tickers]="this.tickers"></trades>
+
+    <app-notification-popup  style="text-align:center; white-space: pre-line"
+        [message]="this.message" 
+        [showNotification]="this.showNotification" 
+        (closePopup)="closePopup()">
+    </app-notification-popup>
+    <button (click)="playNotificationSound()">Active sound </button>
+
 </div>

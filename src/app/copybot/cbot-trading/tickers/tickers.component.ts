@@ -22,7 +22,7 @@ export class TickersComponent implements OnChanges{
   interval: any;
   
 
-  constructor(private http: HttpClient, private config: Config, private changeDetector: ChangeDetectorRef){
+  constructor(private http: HttpClient, private config: Config){
     
   }
   ngOnInit(){
@@ -43,8 +43,10 @@ export class TickersComponent implements OnChanges{
     let time = new Date();
     //if(time.getHours() > 4 && time.getHours()<24){
         this.http.get<Ticker[]>(this.config.getWsUrl() + "/trade/tickers").subscribe(data=>{
-          this.tickers = data;
-          this.changeDetector.detectChanges();
+          if(data !== undefined){
+            this.tickers = data;
+          }
+          //this.changeDetector.detectChanges();
           //this.outTicks.emit(this.tickers);
       });
     //}
