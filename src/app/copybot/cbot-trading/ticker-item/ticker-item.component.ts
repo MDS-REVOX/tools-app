@@ -29,7 +29,7 @@ export class TickerItemComponent implements OnChanges{
   sell = 2;
 
   isMarketOpen: boolean = true;
-  isTradePartiel: boolean = false;
+  isTradePartiel: boolean = true;
 
 
 

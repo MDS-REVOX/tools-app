@@ -29,6 +29,10 @@ export class TradesComponent {
   public isPartialTrade : boolean  = true;
   isFieldsetVisibleMap: { [key: number]: boolean } = {};
   inputVolume: number = 0;
+  isFieldsetEditVisibleMap: { [key: number]: boolean } = {};
+  inputTp: number = 0;
+  inputSl: number = 0;
+  isFieldsetViewVisibleMap: { [key: number]: boolean } = {};
 
   constructor(private tradeServ: TradeService){
 
@@ -86,8 +90,18 @@ export class TradesComponent {
     if (!this.isPartialTrade){
       this.tradeServ.makeEventTrade(this.account.id, trade, event);
     } else {
+      if (event == EventEnum.TRADE_MAJ) {
+        if (this.inputTp != 0) {
+          trade.lines[0].priceTp = this.inputTp;
+        }
+        if (this.inputSl != 0) {
+          trade.lines[0].priceSl = this.inputSl;
+        }
+      }
       this.tradeServ.makeEventTradePartial(this.account.id, trade, event, this.inputVolume);
     }
+    this.toggleFieldset(trade);
+    this.toggleFieldsetEdit(trade);
   }
 
   makeCloseTrade(trade:Trade, event:EventEnum) {
@@ -104,6 +118,21 @@ export class TradesComponent {
     this.isFieldsetVisibleMap[tradeId] = !this.isFieldsetVisibleMap[tradeId];
     
   }
+
+  toggleFieldsetEdit(trade:Trade) {
+    const tradeId = trade.id;
+    // Inverser la visibilité actuelle du fieldset pour ce trade
+    this.isFieldsetEditVisibleMap[tradeId] = !this.isFieldsetEditVisibleMap[tradeId];
+    
+  }
+
+  toggleFieldsetView(trade:Trade) {
+    const tradeId = trade.id;
+    // Inverser la visibilité actuelle du fieldset pour ce trade
+    this.isFieldsetViewVisibleMap[tradeId] = !this.isFieldsetViewVisibleMap[tradeId];
+    
+  }
+
 
 
   makeTp1Trade(trade:Trade, event:EventEnum) {

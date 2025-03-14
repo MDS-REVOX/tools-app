@@ -102,13 +102,13 @@
                         <div class="libPrice">Open price</div>
                         <div class="price">{{ avgOpenPrices(trade.lines)}}</div>
                         <div class="libDevPts">€/pts</div>
-                        <div class="devPts">{{ getOpenLotSize(trade) }}</div>
+                        <div class="devPts">{{ getOpenLotSize(trade) | number: '1.2-2' }}</div>
                         <div class="libGP">P&L</div>
                         <div class="gp">{{ calcPnl(trade) }}</div>
                         <div class="gpValue">{{ calcPnlPercent(trade) }}</div>
                         <div class="action-wrapper">
-                            <a class="show"><i class="pi pi-eye" style="font-size: 0.95rem;"></i></a>
-                            <a class="edit"><i class="pi pi-pencil" style="font-size: 0.95rem;"></i></a>
+                            <a class="show" (click)="toggleFieldsetView(trade)"><i class="pi pi-eye" style="font-size: 0.95rem;"></i></a>
+                            <a class="edit" (click)="toggleFieldsetEdit(trade)"><i class="pi pi-pencil" style="font-size: 0.95rem;"></i></a>
                             <a class="sl" (click)="makeCloseTrade(trade, EventEnum.TRADE_CLOSE)"
                                 [ngClass]="{ 'disabled': !isTradeActifBE(trade) }">
                                 SL</a>
@@ -118,10 +118,10 @@
                             <a class="tp" (click)="toggleFieldset(trade)"
                                 [ngClass]="{ 'disabled': getNbTradeLineClosePartial(trade) != 0 }">
                                 TP1</a>
-                            <a class="tp"
+                            <a class="tp" (click)="toggleFieldset(trade)"
                                 [ngClass]="{ 'disabled': getNbTradeLineClosePartial(trade) != 1}">
                                 TP2</a>
-                            <a class="tp"
+                            <a class="tp" (click)="toggleFieldset(trade)"
                                 [ngClass]="{ 'disabled': getNbTradeLineClosePartial(trade) != 2 }">
                                 TP3</a>
                             <!--
@@ -145,7 +145,7 @@
                                         <div class="line-item">
                                             <!--<span class="line-ticket">Ticket: {{ line.idTicket }}</span> -->
                                             <!--<span class="line-open">Price: {{ line.open }}</span>-->
-                                            <span class="line-open">Exposition: {{ line.exposition }}</span>
+                                            <span class="line-open">Exposition: {{ (line.exposition - line.volumeClose) | number: '1.2-2' }}</span>
                                             <span class="line-open">Volume Close: {{ line.volumeClose }}</span>
                                             <div>  <span>Volume: </span>
                                                 <input 
@@ -159,6 +159,51 @@
                                                 <!--<button (click)="lineItemTPClick(line, EventEnum.TRADE_CLOSE)" [ngClass]="{ 'disabled': line.volumeClose == line.exposition }">VALIDER TP</button> -->
                                             </div>
                                             <br>
+                                        </div>
+                                }
+                            }
+                        </div>
+                    </fieldset>   
+                    <fieldset class="fieldset w-full" *ngIf="isFieldsetEditVisibleMap[trade.id]">
+                        <legend class="collapsable" (click)="collaspeOrExpand($event)">Edition</legend>
+                        <div class="content collapsed">
+                            @if(trade.lines && trade.lines.length != 0){
+                                @for(line of trade.lines; track line.id) {
+                                        <div class="line-item">
+
+                                            <div>  <span>Take Profit: </span>
+                                                <input 
+                                                type="number" 
+                                                [(ngModel)]="inputTp" 
+                                                placeholder="Entrez une valeur TP" 
+                                                class="custom-input" 
+                                            />
+                                            <label for="priceSlInput">Stop loss:</label>
+                                            <input 
+                                                type="number" 
+                                                [(ngModel)]="inputSl" 
+                                                placeholder="Entrez une valeur de SL" 
+                                                class="custom-input" 
+                                            />
+                                                <button (click)="makeBreakEvent(trade, EventEnum.TRADE_MAJ)" [ngClass]="{ 'disabled': line.volumeClose == line.exposition }">ENREGISTRER TP/SL</button>
+                                                
+                                            </div>
+                                            <br>
+                                        </div>
+                                }
+                            }
+                        </div>
+                    </fieldset>   
+                    <fieldset class="fieldset w-full" *ngIf="isFieldsetViewVisibleMap[trade.id]">
+                        <legend class="collapsable" (click)="collaspeOrExpand($event)">Visualisation</legend>
+                        <div class="content collapsed">
+                            @if(trade.lines && trade.lines.length != 0){
+                                @for(line of trade.lines; track line.id) {
+                                        <div class="line-item">
+                                            <span class="line-open">Exposition Restante: {{ (line.exposition - line.volumeClose) | number: '1.2-2' }}</span><br>
+                                            <span class="line-open">Volume Close: {{ line.volumeClose }}</span><br>
+                                            <span class="line-open">Take Profit: {{ line.priceTp }}</span><br>
+                                            <span class="line-open">Stop loss: {{ line.priceSl }}</span><br>
                                         </div>
                                 }
                             }
