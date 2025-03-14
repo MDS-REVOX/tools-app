@@ -45,6 +45,8 @@ export class TradesComponent {
           this.trades = res;
         }
       });  
+    }else{
+      this.trades = [];
     }
   }
   loadTrades(){
