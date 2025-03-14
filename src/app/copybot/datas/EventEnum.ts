@@ -4,7 +4,7 @@ export enum EventEnum {
     TRADE_MAJ = 2,
     BREAK_EVENT = 3,
     KILL_ALL = 4,
-    TRADE_TP = 5,
+    EVENT_OC = 5,
     EVENT_OP_END = 6, // L'événement pour anomalie
     EVENT_MARKET_CLOSE = 7 // Marché fermé
 
@@ -22,8 +22,8 @@ export enum EventEnum {
         return 'Événement de rupture';
       case EventEnum.KILL_ALL:
         return 'Killer tous les trades';
-      case EventEnum.TRADE_TP:
-        return 'Take Profit atteint';
+      case EventEnum.EVENT_OC:
+        return 'Ordre continue';
       case EventEnum.EVENT_OP_END:
         return 'Anomalie';
       case EventEnum.EVENT_MARKET_CLOSE:
