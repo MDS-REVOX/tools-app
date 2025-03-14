@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 import { NotificationPopupComponent } from './trade-notification/notification-popup.component';
 import { MqlNotification } from '../datas/MqlNotification';
 import { TradeService } from '../../services/TradeService';
+import { EventEnum, getEventTypeText } from '../datas/EventEnum';
 
 @Component({
   selector: 'cbot-trading',
@@ -141,8 +142,38 @@ export class CbotTradingComponent {
         if (value && value.length > 0) {
           // Formater le message avec les notifications reçues
           this.message = value
-            .map((notification) => `Event Type: ${notification.eventType}, Symbol: ${notification.symbol}`)
-            .join('\n');  
+          .map((notification) => {
+          
+            let eventText = getEventTypeText(notification.eventType as EventEnum); 
+
+            // Vérifier si l'événement est échoué (par exemple, avec des codes -1 ou -2)
+            if (notification.eventType < 0) {
+              eventText += ' (Échec)';  // Ajouter "(Échec)" à l'événement si l'eventType est négatif
+            }
+
+
+            let eventInfo = "";
+            if (notification.eventType == 0) { // TRADE_OPEN
+              if (notification.side == 1) {
+                eventInfo = 'BUY,';  
+              } else if (notification.side == 2) {
+                eventInfo = 'SELL,';   
+              }
+            }
+            /** 
+            if (notification.eventType == 2) { // TRADE_MAJ
+              eventInfo += 
+            }*/
+
+            if (eventInfo) {
+              return `Type d'événement: ${eventText}, Symbole: ${notification.symbol}, Info: ${eventInfo}`;
+            } else {
+              return `Type d'événement: ${eventText}, Symbole: ${notification.symbol}`;
+            }
+
+          })
+          .join('\n');  
+
           this.showNotification = true;
           this.playNotificationSound();
         } else {
